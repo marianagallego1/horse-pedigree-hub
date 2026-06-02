@@ -13,6 +13,10 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as HealthRouteImport } from './routes/health'
 import { Route as ConfiguracionRouteImport } from './routes/configuracion'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EquinosIndexRouteImport } from './routes/equinos.index'
+import { Route as EquinosNuevoRouteImport } from './routes/equinos.nuevo'
+import { Route as EquinosIdRouteImport } from './routes/equinos.$id'
+import { Route as EquinosIdEditarRouteImport } from './routes/equinos.$id.editar'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -34,18 +38,46 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EquinosIndexRoute = EquinosIndexRouteImport.update({
+  id: '/equinos/',
+  path: '/equinos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EquinosNuevoRoute = EquinosNuevoRouteImport.update({
+  id: '/equinos/nuevo',
+  path: '/equinos/nuevo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EquinosIdRoute = EquinosIdRouteImport.update({
+  id: '/equinos/$id',
+  path: '/equinos/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EquinosIdEditarRoute = EquinosIdEditarRouteImport.update({
+  id: '/editar',
+  path: '/editar',
+  getParentRoute: () => EquinosIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/configuracion': typeof ConfiguracionRoute
   '/health': typeof HealthRoute
   '/login': typeof LoginRoute
+  '/equinos/$id': typeof EquinosIdRouteWithChildren
+  '/equinos/nuevo': typeof EquinosNuevoRoute
+  '/equinos/': typeof EquinosIndexRoute
+  '/equinos/$id/editar': typeof EquinosIdEditarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/configuracion': typeof ConfiguracionRoute
   '/health': typeof HealthRoute
   '/login': typeof LoginRoute
+  '/equinos/$id': typeof EquinosIdRouteWithChildren
+  '/equinos/nuevo': typeof EquinosNuevoRoute
+  '/equinos': typeof EquinosIndexRoute
+  '/equinos/$id/editar': typeof EquinosIdEditarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +85,42 @@ export interface FileRoutesById {
   '/configuracion': typeof ConfiguracionRoute
   '/health': typeof HealthRoute
   '/login': typeof LoginRoute
+  '/equinos/$id': typeof EquinosIdRouteWithChildren
+  '/equinos/nuevo': typeof EquinosNuevoRoute
+  '/equinos/': typeof EquinosIndexRoute
+  '/equinos/$id/editar': typeof EquinosIdEditarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/configuracion' | '/health' | '/login'
+  fullPaths:
+    | '/'
+    | '/configuracion'
+    | '/health'
+    | '/login'
+    | '/equinos/$id'
+    | '/equinos/nuevo'
+    | '/equinos/'
+    | '/equinos/$id/editar'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/configuracion' | '/health' | '/login'
-  id: '__root__' | '/' | '/configuracion' | '/health' | '/login'
+  to:
+    | '/'
+    | '/configuracion'
+    | '/health'
+    | '/login'
+    | '/equinos/$id'
+    | '/equinos/nuevo'
+    | '/equinos'
+    | '/equinos/$id/editar'
+  id:
+    | '__root__'
+    | '/'
+    | '/configuracion'
+    | '/health'
+    | '/login'
+    | '/equinos/$id'
+    | '/equinos/nuevo'
+    | '/equinos/'
+    | '/equinos/$id/editar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +128,9 @@ export interface RootRouteChildren {
   ConfiguracionRoute: typeof ConfiguracionRoute
   HealthRoute: typeof HealthRoute
   LoginRoute: typeof LoginRoute
+  EquinosIdRoute: typeof EquinosIdRouteWithChildren
+  EquinosNuevoRoute: typeof EquinosNuevoRoute
+  EquinosIndexRoute: typeof EquinosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,14 +163,57 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/equinos/': {
+      id: '/equinos/'
+      path: '/equinos'
+      fullPath: '/equinos/'
+      preLoaderRoute: typeof EquinosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/equinos/nuevo': {
+      id: '/equinos/nuevo'
+      path: '/equinos/nuevo'
+      fullPath: '/equinos/nuevo'
+      preLoaderRoute: typeof EquinosNuevoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/equinos/$id': {
+      id: '/equinos/$id'
+      path: '/equinos/$id'
+      fullPath: '/equinos/$id'
+      preLoaderRoute: typeof EquinosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/equinos/$id/editar': {
+      id: '/equinos/$id/editar'
+      path: '/editar'
+      fullPath: '/equinos/$id/editar'
+      preLoaderRoute: typeof EquinosIdEditarRouteImport
+      parentRoute: typeof EquinosIdRoute
+    }
   }
 }
+
+interface EquinosIdRouteChildren {
+  EquinosIdEditarRoute: typeof EquinosIdEditarRoute
+}
+
+const EquinosIdRouteChildren: EquinosIdRouteChildren = {
+  EquinosIdEditarRoute: EquinosIdEditarRoute,
+}
+
+const EquinosIdRouteWithChildren = EquinosIdRoute._addFileChildren(
+  EquinosIdRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ConfiguracionRoute: ConfiguracionRoute,
   HealthRoute: HealthRoute,
   LoginRoute: LoginRoute,
+  EquinosIdRoute: EquinosIdRouteWithChildren,
+  EquinosNuevoRoute: EquinosNuevoRoute,
+  EquinosIndexRoute: EquinosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
