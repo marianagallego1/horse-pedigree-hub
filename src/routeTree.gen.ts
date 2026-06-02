@@ -9,15 +9,27 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ReportesRouteImport } from './routes/reportes'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as HealthRouteImport } from './routes/health'
 import { Route as ConfiguracionRouteImport } from './routes/configuracion'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EquinosIndexRouteImport } from './routes/equinos.index'
+import { Route as CampeonatosIndexRouteImport } from './routes/campeonatos.index'
+import { Route as UsuariosNuevoRouteImport } from './routes/usuarios.nuevo'
+import { Route as ParticipacionesIdRouteImport } from './routes/participaciones.$id'
 import { Route as EquinosNuevoRouteImport } from './routes/equinos.nuevo'
 import { Route as EquinosIdRouteImport } from './routes/equinos.$id'
+import { Route as CampeonatosNuevoRouteImport } from './routes/campeonatos.nuevo'
+import { Route as CampeonatosIdRouteImport } from './routes/campeonatos.$id'
 import { Route as EquinosIdEditarRouteImport } from './routes/equinos.$id.editar'
+import { Route as CampeonatosIdEditarRouteImport } from './routes/campeonatos.$id.editar'
 
+const ReportesRoute = ReportesRouteImport.update({
+  id: '/reportes',
+  path: '/reportes',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -43,6 +55,21 @@ const EquinosIndexRoute = EquinosIndexRouteImport.update({
   path: '/equinos/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampeonatosIndexRoute = CampeonatosIndexRouteImport.update({
+  id: '/campeonatos/',
+  path: '/campeonatos/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsuariosNuevoRoute = UsuariosNuevoRouteImport.update({
+  id: '/usuarios/nuevo',
+  path: '/usuarios/nuevo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParticipacionesIdRoute = ParticipacionesIdRouteImport.update({
+  id: '/participaciones/$id',
+  path: '/participaciones/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EquinosNuevoRoute = EquinosNuevoRouteImport.update({
   id: '/equinos/nuevo',
   path: '/equinos/nuevo',
@@ -53,10 +80,25 @@ const EquinosIdRoute = EquinosIdRouteImport.update({
   path: '/equinos/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampeonatosNuevoRoute = CampeonatosNuevoRouteImport.update({
+  id: '/campeonatos/nuevo',
+  path: '/campeonatos/nuevo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampeonatosIdRoute = CampeonatosIdRouteImport.update({
+  id: '/campeonatos/$id',
+  path: '/campeonatos/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EquinosIdEditarRoute = EquinosIdEditarRouteImport.update({
   id: '/editar',
   path: '/editar',
   getParentRoute: () => EquinosIdRoute,
+} as any)
+const CampeonatosIdEditarRoute = CampeonatosIdEditarRouteImport.update({
+  id: '/editar',
+  path: '/editar',
+  getParentRoute: () => CampeonatosIdRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -64,9 +106,16 @@ export interface FileRoutesByFullPath {
   '/configuracion': typeof ConfiguracionRoute
   '/health': typeof HealthRoute
   '/login': typeof LoginRoute
+  '/reportes': typeof ReportesRoute
+  '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
+  '/campeonatos/nuevo': typeof CampeonatosNuevoRoute
   '/equinos/$id': typeof EquinosIdRouteWithChildren
   '/equinos/nuevo': typeof EquinosNuevoRoute
+  '/participaciones/$id': typeof ParticipacionesIdRoute
+  '/usuarios/nuevo': typeof UsuariosNuevoRoute
+  '/campeonatos/': typeof CampeonatosIndexRoute
   '/equinos/': typeof EquinosIndexRoute
+  '/campeonatos/$id/editar': typeof CampeonatosIdEditarRoute
   '/equinos/$id/editar': typeof EquinosIdEditarRoute
 }
 export interface FileRoutesByTo {
@@ -74,9 +123,16 @@ export interface FileRoutesByTo {
   '/configuracion': typeof ConfiguracionRoute
   '/health': typeof HealthRoute
   '/login': typeof LoginRoute
+  '/reportes': typeof ReportesRoute
+  '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
+  '/campeonatos/nuevo': typeof CampeonatosNuevoRoute
   '/equinos/$id': typeof EquinosIdRouteWithChildren
   '/equinos/nuevo': typeof EquinosNuevoRoute
+  '/participaciones/$id': typeof ParticipacionesIdRoute
+  '/usuarios/nuevo': typeof UsuariosNuevoRoute
+  '/campeonatos': typeof CampeonatosIndexRoute
   '/equinos': typeof EquinosIndexRoute
+  '/campeonatos/$id/editar': typeof CampeonatosIdEditarRoute
   '/equinos/$id/editar': typeof EquinosIdEditarRoute
 }
 export interface FileRoutesById {
@@ -85,9 +141,16 @@ export interface FileRoutesById {
   '/configuracion': typeof ConfiguracionRoute
   '/health': typeof HealthRoute
   '/login': typeof LoginRoute
+  '/reportes': typeof ReportesRoute
+  '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
+  '/campeonatos/nuevo': typeof CampeonatosNuevoRoute
   '/equinos/$id': typeof EquinosIdRouteWithChildren
   '/equinos/nuevo': typeof EquinosNuevoRoute
+  '/participaciones/$id': typeof ParticipacionesIdRoute
+  '/usuarios/nuevo': typeof UsuariosNuevoRoute
+  '/campeonatos/': typeof CampeonatosIndexRoute
   '/equinos/': typeof EquinosIndexRoute
+  '/campeonatos/$id/editar': typeof CampeonatosIdEditarRoute
   '/equinos/$id/editar': typeof EquinosIdEditarRoute
 }
 export interface FileRouteTypes {
@@ -97,9 +160,16 @@ export interface FileRouteTypes {
     | '/configuracion'
     | '/health'
     | '/login'
+    | '/reportes'
+    | '/campeonatos/$id'
+    | '/campeonatos/nuevo'
     | '/equinos/$id'
     | '/equinos/nuevo'
+    | '/participaciones/$id'
+    | '/usuarios/nuevo'
+    | '/campeonatos/'
     | '/equinos/'
+    | '/campeonatos/$id/editar'
     | '/equinos/$id/editar'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -107,9 +177,16 @@ export interface FileRouteTypes {
     | '/configuracion'
     | '/health'
     | '/login'
+    | '/reportes'
+    | '/campeonatos/$id'
+    | '/campeonatos/nuevo'
     | '/equinos/$id'
     | '/equinos/nuevo'
+    | '/participaciones/$id'
+    | '/usuarios/nuevo'
+    | '/campeonatos'
     | '/equinos'
+    | '/campeonatos/$id/editar'
     | '/equinos/$id/editar'
   id:
     | '__root__'
@@ -117,9 +194,16 @@ export interface FileRouteTypes {
     | '/configuracion'
     | '/health'
     | '/login'
+    | '/reportes'
+    | '/campeonatos/$id'
+    | '/campeonatos/nuevo'
     | '/equinos/$id'
     | '/equinos/nuevo'
+    | '/participaciones/$id'
+    | '/usuarios/nuevo'
+    | '/campeonatos/'
     | '/equinos/'
+    | '/campeonatos/$id/editar'
     | '/equinos/$id/editar'
   fileRoutesById: FileRoutesById
 }
@@ -128,13 +212,26 @@ export interface RootRouteChildren {
   ConfiguracionRoute: typeof ConfiguracionRoute
   HealthRoute: typeof HealthRoute
   LoginRoute: typeof LoginRoute
+  ReportesRoute: typeof ReportesRoute
+  CampeonatosIdRoute: typeof CampeonatosIdRouteWithChildren
+  CampeonatosNuevoRoute: typeof CampeonatosNuevoRoute
   EquinosIdRoute: typeof EquinosIdRouteWithChildren
   EquinosNuevoRoute: typeof EquinosNuevoRoute
+  ParticipacionesIdRoute: typeof ParticipacionesIdRoute
+  UsuariosNuevoRoute: typeof UsuariosNuevoRoute
+  CampeonatosIndexRoute: typeof CampeonatosIndexRoute
   EquinosIndexRoute: typeof EquinosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/reportes': {
+      id: '/reportes'
+      path: '/reportes'
+      fullPath: '/reportes'
+      preLoaderRoute: typeof ReportesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -170,6 +267,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EquinosIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campeonatos/': {
+      id: '/campeonatos/'
+      path: '/campeonatos'
+      fullPath: '/campeonatos/'
+      preLoaderRoute: typeof CampeonatosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/usuarios/nuevo': {
+      id: '/usuarios/nuevo'
+      path: '/usuarios/nuevo'
+      fullPath: '/usuarios/nuevo'
+      preLoaderRoute: typeof UsuariosNuevoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/participaciones/$id': {
+      id: '/participaciones/$id'
+      path: '/participaciones/$id'
+      fullPath: '/participaciones/$id'
+      preLoaderRoute: typeof ParticipacionesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/equinos/nuevo': {
       id: '/equinos/nuevo'
       path: '/equinos/nuevo'
@@ -184,6 +302,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EquinosIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campeonatos/nuevo': {
+      id: '/campeonatos/nuevo'
+      path: '/campeonatos/nuevo'
+      fullPath: '/campeonatos/nuevo'
+      preLoaderRoute: typeof CampeonatosNuevoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campeonatos/$id': {
+      id: '/campeonatos/$id'
+      path: '/campeonatos/$id'
+      fullPath: '/campeonatos/$id'
+      preLoaderRoute: typeof CampeonatosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/equinos/$id/editar': {
       id: '/equinos/$id/editar'
       path: '/editar'
@@ -191,8 +323,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EquinosIdEditarRouteImport
       parentRoute: typeof EquinosIdRoute
     }
+    '/campeonatos/$id/editar': {
+      id: '/campeonatos/$id/editar'
+      path: '/editar'
+      fullPath: '/campeonatos/$id/editar'
+      preLoaderRoute: typeof CampeonatosIdEditarRouteImport
+      parentRoute: typeof CampeonatosIdRoute
+    }
   }
 }
+
+interface CampeonatosIdRouteChildren {
+  CampeonatosIdEditarRoute: typeof CampeonatosIdEditarRoute
+}
+
+const CampeonatosIdRouteChildren: CampeonatosIdRouteChildren = {
+  CampeonatosIdEditarRoute: CampeonatosIdEditarRoute,
+}
+
+const CampeonatosIdRouteWithChildren = CampeonatosIdRoute._addFileChildren(
+  CampeonatosIdRouteChildren,
+)
 
 interface EquinosIdRouteChildren {
   EquinosIdEditarRoute: typeof EquinosIdEditarRoute
@@ -211,8 +362,14 @@ const rootRouteChildren: RootRouteChildren = {
   ConfiguracionRoute: ConfiguracionRoute,
   HealthRoute: HealthRoute,
   LoginRoute: LoginRoute,
+  ReportesRoute: ReportesRoute,
+  CampeonatosIdRoute: CampeonatosIdRouteWithChildren,
+  CampeonatosNuevoRoute: CampeonatosNuevoRoute,
   EquinosIdRoute: EquinosIdRouteWithChildren,
   EquinosNuevoRoute: EquinosNuevoRoute,
+  ParticipacionesIdRoute: ParticipacionesIdRoute,
+  UsuariosNuevoRoute: UsuariosNuevoRoute,
+  CampeonatosIndexRoute: CampeonatosIndexRoute,
   EquinosIndexRoute: EquinosIndexRoute,
 }
 export const routeTree = rootRouteImport
