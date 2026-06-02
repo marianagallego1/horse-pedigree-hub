@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { api, getBaseUrl, getToken } from "@/lib/api";
+import { api, apiBlob, apiQs } from "@/lib/api";
 import type { EquinosPorEstadoItem, EstadisticasGenerales } from "@/lib/types";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,17 +22,18 @@ function Page() {
 
   const exportar = async () => {
     try {
-      const token = getToken();
-      const res = await fetch(`${getBaseUrl()}/api/v1/reportes/equinos-por-estado/exportar`, {
-        headers: token ? { Authorization: `Bearer ${token}` } : {},
-      });
-      if (!res.ok) throw new Error("Error al exportar");
-      const blob = await res.blob();
+      const blob = await apiBlob(
+        `/api/v1/reportes/equinos-por-estado/exportar${apiQs({ formato: "pdf" })}`,
+      );
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = url; a.download = "equinos-por-estado.pdf"; a.click();
+      a.href = url;
+      a.download = "equinos-por-estado.pdf";
+      a.click();
       URL.revokeObjectURL(url);
-    } catch (e: any) { toast.error(e.message); }
+    } catch (e: unknown) {
+      toast.error(e instanceof Error ? e.message : "Error al exportar");
+    }
   };
 
   const max = Math.max(1, ...(porEstado.data?.map((x) => x.totalEquinos) || [0]));

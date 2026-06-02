@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api";
+import type { Equino } from "@/lib/types";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
 import { EquinoForm, type EquinoFormState } from "@/components/EquinoForm";
 import { toast } from "sonner";
@@ -18,7 +19,7 @@ function Page() {
   });
   const m = useMutation({
     mutationFn: (body: EquinoFormState) =>
-      api<{ equinoId: number }>("/api/v1/equinos", { method: "POST", body: JSON.stringify(body) }),
+      api<Equino>("/api/v1/equinos", { method: "POST", body: JSON.stringify(body) }),
     onSuccess: (res) => {
       toast.success("Equino creado");
       nav({ to: "/equinos/$id", params: { id: String(res.equinoId) } });

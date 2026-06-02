@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { api, qs } from "@/lib/api";
+import { api, apiQs } from "@/lib/api";
 import type { EquinoListItem } from "@/lib/types";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
 import { Button } from "@/components/ui/button";
@@ -21,7 +21,15 @@ function List() {
 
   const { data, isLoading } = useQuery({
     queryKey: ["equinos", { nombre, propietario, soloVivos }],
-    queryFn: () => api<EquinoListItem[]>("/api/v1/equinos" + qs({ nombre, propietario, soloVivos: soloVivos || undefined })),
+    queryFn: () =>
+      api<EquinoListItem[]>(
+        "/api/v1/equinos" +
+          apiQs({
+            Nombre: nombre || undefined,
+            Propietario: propietario || undefined,
+            SoloVivos: soloVivos ? true : undefined,
+          }),
+      ),
   });
 
   return (

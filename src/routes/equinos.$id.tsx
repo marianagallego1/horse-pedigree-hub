@@ -49,7 +49,7 @@ function Detail() {
   const inscribir = useMutation({
     mutationFn: () => api(`/api/v1/equinos/${id}/campeonatos`, {
       method: "POST",
-      body: JSON.stringify({ campeonatoId: Number(campId), categoriaId: catId ? Number(catId) : undefined }),
+      body: JSON.stringify({ campeonatoId: Number(campId), categoriaId: Number(catId) }),
     }),
     onSuccess: () => {
       toast.success("Inscrito");
@@ -170,8 +170,8 @@ function Detail() {
             <TabsContent value="inscribir">
               <Card><CardContent className="p-6 space-y-4 max-w-md">
                 <div><Label>Campeonato ID</Label><Input type="number" value={campId} onChange={(ev) => setCampId(ev.target.value)} /></div>
-                <div><Label>Categoría ID (opcional)</Label><Input type="number" value={catId} onChange={(ev) => setCatId(ev.target.value)} /></div>
-                <Button disabled={!campId || inscribir.isPending} onClick={() => inscribir.mutate()}>
+                <div><Label>Categoría ID*</Label><Input type="number" required value={catId} onChange={(ev) => setCatId(ev.target.value)} /></div>
+                <Button disabled={!campId || !catId || inscribir.isPending} onClick={() => inscribir.mutate()}>
                   <Plus className="w-4 h-4 mr-2" /> Inscribir
                 </Button>
               </CardContent></Card>

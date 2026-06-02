@@ -56,11 +56,17 @@ export interface Equino {
   fechaDeCreacion: string;
   fechaDeActualizacion?: string;
 }
+export interface EquinoGenealogiaAncestro {
+  equinoId: number;
+  nombre: string;
+  padre?: EquinoRef | null;
+  madre?: EquinoRef | null;
+}
 export interface EquinoGenealogia {
   equinoId: number;
   nombre: string;
-  padre?: { equinoId: number; nombre: string; padre?: EquinoRef; madre?: EquinoRef } | null;
-  madre?: { equinoId: number; nombre: string; padre?: EquinoRef; madre?: EquinoRef } | null;
+  padre?: EquinoGenealogiaAncestro | null;
+  madre?: EquinoGenealogiaAncestro | null;
 }
 export interface EquinoDesempeno {
   equinoId: number; equinoNombre: string;

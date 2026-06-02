@@ -35,6 +35,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       method: "POST",
       body: JSON.stringify({ username, password }),
     });
+    if (!res.accessToken) throw new Error("El servidor no devolvió un token de acceso");
     setToken(res.accessToken);
     setUser(res.user);
   };

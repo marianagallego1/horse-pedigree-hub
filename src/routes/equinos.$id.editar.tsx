@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api";
+import { toUpdateEquinoRequest } from "@/lib/api-dto";
 import type { Equino } from "@/lib/types";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
 import { EquinoForm, type EquinoFormState } from "@/components/EquinoForm";
@@ -13,7 +14,8 @@ function Page() {
   const nav = useNavigate();
   const { data } = useQuery({ queryKey: ["equino", id], queryFn: () => api<Equino>(`/api/v1/equinos/${id}`) });
   const m = useMutation({
-    mutationFn: (body: EquinoFormState) => api(`/api/v1/equinos/${id}`, { method: "PUT", body: JSON.stringify(body) }),
+    mutationFn: (body: EquinoFormState) =>
+      api(`/api/v1/equinos/${id}`, { method: "PUT", body: JSON.stringify(toUpdateEquinoRequest(body)) }),
     onSuccess: () => { toast.success("Actualizado"); nav({ to: "/equinos/$id", params: { id } }); },
     onError: (e: any) => toast.error(e.message),
   });

@@ -30,10 +30,10 @@ export function CampeonatoForm({
       <Card className="max-w-2xl"><CardContent className="p-6 space-y-4">
         <div><Label>Nombre*</Label><Input required value={s.nombre} onChange={(e) => setS({ ...s, nombre: e.target.value })} /></div>
         <div className="grid grid-cols-2 gap-4">
-          <div><Label>Fecha</Label><Input type="date" value={s.fechaCampeonato || ""} onChange={(e) => setS({ ...s, fechaCampeonato: e.target.value })} /></div>
-          <div><Label>Nivel</Label><Input value={s.nivel || ""} onChange={(e) => setS({ ...s, nivel: e.target.value })} /></div>
+          <div><Label>Fecha*</Label><Input type="date" required value={s.fechaCampeonato || ""} onChange={(e) => setS({ ...s, fechaCampeonato: e.target.value })} /></div>
+          <div><Label>Nivel*</Label><Input required value={s.nivel || ""} onChange={(e) => setS({ ...s, nivel: e.target.value })} /></div>
         </div>
-        <div><Label>Ubicación</Label><Input value={s.ubicacion || ""} onChange={(e) => setS({ ...s, ubicacion: e.target.value })} /></div>
+        <div><Label>Ubicación*</Label><Input required value={s.ubicacion || ""} onChange={(e) => setS({ ...s, ubicacion: e.target.value })} /></div>
         <div><Label>Descripción</Label><Textarea value={s.descripcion || ""} onChange={(e) => setS({ ...s, descripcion: e.target.value })} /></div>
         <Button type="submit" disabled={submitting}>{submitting ? "Guardando…" : "Guardar"}</Button>
       </CardContent></Card>

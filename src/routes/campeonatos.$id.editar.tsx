@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api";
+import { toUpdateCampeonatoRequest } from "@/lib/api-dto";
 import type { Campeonato } from "@/lib/types";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
 import { CampeonatoForm, type CampeonatoFormState } from "@/components/CampeonatoForm";
@@ -13,7 +14,8 @@ function Page() {
   const nav = useNavigate();
   const { data } = useQuery({ queryKey: ["campeonato", id], queryFn: () => api<Campeonato>(`/api/v1/campeonatos/${id}`) });
   const m = useMutation({
-    mutationFn: (b: CampeonatoFormState) => api(`/api/v1/campeonatos/${id}`, { method: "PUT", body: JSON.stringify(b) }),
+    mutationFn: (b: CampeonatoFormState) =>
+      api(`/api/v1/campeonatos/${id}`, { method: "PUT", body: JSON.stringify(toUpdateCampeonatoRequest(b)) }),
     onSuccess: () => { toast.success("Actualizado"); nav({ to: "/campeonatos/$id", params: { id } }); },
     onError: (e: any) => toast.error(e.message),
   });

@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { api } from "@/lib/api";
+import { toUpdateEquinoCampeonatoRequest } from "@/lib/api-dto";
 import type { EquinoCampeonatoDetalle } from "@/lib/types";
 import { AppLayout, PageHeader } from "@/components/AppLayout";
 import { Card, CardContent } from "@/components/ui/card";
@@ -37,12 +38,14 @@ function Page() {
   const upd = useMutation({
     mutationFn: () => api(`/api/v1/equino-campeonatos/${id}`, {
       method: "PUT",
-      body: JSON.stringify({
-        resultado: resultado || undefined,
-        puntaje: puntaje !== "" ? Number(puntaje) : undefined,
-        posicion: posicion !== "" ? Number(posicion) : undefined,
-        categoriaId: categoriaId !== "" ? Number(categoriaId) : undefined,
-      }),
+      body: JSON.stringify(
+        toUpdateEquinoCampeonatoRequest({
+          resultado,
+          puntaje: puntaje !== "" ? Number(puntaje) : undefined,
+          posicion: posicion !== "" ? Number(posicion) : undefined,
+          categoriaId: categoriaId !== "" ? Number(categoriaId) : undefined,
+        }),
+      ),
     }),
     onSuccess: () => toast.success("Actualizado"),
     onError: (e: any) => toast.error(e.message),
