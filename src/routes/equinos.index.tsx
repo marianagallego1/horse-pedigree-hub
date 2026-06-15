@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search } from "lucide-react";
+import { Plus, Search, GitBranch } from "lucide-react";
 import { useAuth } from "@/lib/auth";
 
 export const Route = createFileRoute("/equinos/")({ component: List });
@@ -85,8 +85,15 @@ function List() {
                   <td className="p-4"><Badge variant={e.fechaDeFallecimiento ? "secondary" : "default"}>{e.estadoDescripcion}</Badge></td>
                   <td className="p-4">{e.propietarioNombreCompleto || "—"}</td>
                   <td className="p-4">{e.tipoDePasoDescripcion || "—"}</td>
-                  <td className="p-4 text-right">
+                  <td className="p-4 text-right space-x-3">
                     <Link to="/equinos/$id" params={{ id: String(e.equinoId) }} className="text-accent underline">Ver</Link>
+                    <Link
+                      to="/equinos/$id/genealogia"
+                      params={{ id: String(e.equinoId) }}
+                      className="inline-flex items-center gap-1 text-accent underline"
+                    >
+                      <GitBranch className="h-3.5 w-3.5" /> Genealogía
+                    </Link>
                   </td>
                 </tr>
               ))}

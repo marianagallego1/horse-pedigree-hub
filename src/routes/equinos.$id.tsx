@@ -12,7 +12,8 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/lib/auth";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Pencil, Trash2, Plus } from "lucide-react";
+import { Pencil, Trash2, Plus, GitBranch } from "lucide-react";
+import { GenealogiaTree } from "@/components/GenealogiaTree";
 
 export const Route = createFileRoute("/equinos/$id")({ component: Detail });
 
@@ -68,6 +69,11 @@ function Detail() {
         subtitle={e?.estado ? `${e.estado.descripcion}` : "Detalle"}
         actions={
           <>
+            {e && (
+              <Link to="/equinos/$id/genealogia" params={{ id }}>
+                <Button variant="outline"><GitBranch className="w-4 h-4 mr-2" /> Genealogía</Button>
+              </Link>
+            )}
             {isAdmin && e && (
               <>
                 <Link to="/equinos/$id/editar" params={{ id }}>
@@ -115,8 +121,17 @@ function Detail() {
           </TabsContent>
 
           <TabsContent value="genealogia">
-            <Card><CardContent className="p-6">
-              {gen.data ? <Tree g={gen.data} /> : <p className="text-muted-foreground">Sin datos</p>}
+            <Card><CardContent className="p-6 space-y-4">
+              {gen.isLoading && <p className="text-muted-foreground">Cargando genealogía…</p>}
+              {gen.isError && <p className="text-destructive">No se pudo cargar la genealogía.</p>}
+              {gen.data && <GenealogiaTree g={gen.data} />}
+              {gen.data && (
+                <div className="flex justify-center pt-2">
+                  <Link to="/equinos/$id/genealogia" params={{ id }}>
+                    <Button variant="link" className="text-accent">Ver en pantalla completa</Button>
+                  </Link>
+                </div>
+              )}
             </CardContent></Card>
           </TabsContent>
 
@@ -196,37 +211,6 @@ function Stat({ label, v }: { label: string; v: number }) {
     <div className="text-center p-4 rounded-md bg-muted">
       <div className="font-serif text-3xl">{v}</div>
       <div className="text-xs uppercase tracking-wider text-muted-foreground mt-1">{label}</div>
-    </div>
-  );
-}
-function Node({ label, name }: { label: string; name?: string | null }) {
-  return (
-    <div className="p-3 rounded-md border bg-card min-w-32 text-center">
-      <div className="text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
-      <div className="font-medium">{name || "—"}</div>
-    </div>
-  );
-}
-function Tree({ g }: { g: EquinoGenealogia }) {
-  return (
-    <div className="flex flex-col items-center gap-6">
-      <Node label="Equino" name={g.nombre} />
-      <div className="grid grid-cols-2 gap-8 w-full max-w-2xl">
-        <div className="flex flex-col items-center gap-3">
-          <Node label="Padre" name={g.padre?.nombre} />
-          <div className="grid grid-cols-2 gap-3 w-full">
-            <Node label="Abuelo paterno" name={g.padre?.padre?.nombre} />
-            <Node label="Abuela paterna" name={g.padre?.madre?.nombre} />
-          </div>
-        </div>
-        <div className="flex flex-col items-center gap-3">
-          <Node label="Madre" name={g.madre?.nombre} />
-          <div className="grid grid-cols-2 gap-3 w-full">
-            <Node label="Abuelo materno" name={g.madre?.padre?.nombre} />
-            <Node label="Abuela materna" name={g.madre?.madre?.nombre} />
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

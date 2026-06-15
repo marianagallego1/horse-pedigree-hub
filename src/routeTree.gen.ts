@@ -22,6 +22,7 @@ import { Route as EquinosNuevoRouteImport } from './routes/equinos.nuevo'
 import { Route as EquinosIdRouteImport } from './routes/equinos.$id'
 import { Route as CampeonatosNuevoRouteImport } from './routes/campeonatos.nuevo'
 import { Route as CampeonatosIdRouteImport } from './routes/campeonatos.$id'
+import { Route as EquinosIdGenealogiaRouteImport } from './routes/equinos.$id.genealogia'
 import { Route as EquinosIdEditarRouteImport } from './routes/equinos.$id.editar'
 import { Route as CampeonatosIdEditarRouteImport } from './routes/campeonatos.$id.editar'
 
@@ -90,6 +91,11 @@ const CampeonatosIdRoute = CampeonatosIdRouteImport.update({
   path: '/campeonatos/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EquinosIdGenealogiaRoute = EquinosIdGenealogiaRouteImport.update({
+  id: '/genealogia',
+  path: '/genealogia',
+  getParentRoute: () => EquinosIdRoute,
+} as any)
 const EquinosIdEditarRoute = EquinosIdEditarRouteImport.update({
   id: '/editar',
   path: '/editar',
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/equinos/': typeof EquinosIndexRoute
   '/campeonatos/$id/editar': typeof CampeonatosIdEditarRoute
   '/equinos/$id/editar': typeof EquinosIdEditarRoute
+  '/equinos/$id/genealogia': typeof EquinosIdGenealogiaRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/equinos': typeof EquinosIndexRoute
   '/campeonatos/$id/editar': typeof CampeonatosIdEditarRoute
   '/equinos/$id/editar': typeof EquinosIdEditarRoute
+  '/equinos/$id/genealogia': typeof EquinosIdGenealogiaRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -152,6 +160,7 @@ export interface FileRoutesById {
   '/equinos/': typeof EquinosIndexRoute
   '/campeonatos/$id/editar': typeof CampeonatosIdEditarRoute
   '/equinos/$id/editar': typeof EquinosIdEditarRoute
+  '/equinos/$id/genealogia': typeof EquinosIdGenealogiaRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -171,6 +180,7 @@ export interface FileRouteTypes {
     | '/equinos/'
     | '/campeonatos/$id/editar'
     | '/equinos/$id/editar'
+    | '/equinos/$id/genealogia'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -188,6 +198,7 @@ export interface FileRouteTypes {
     | '/equinos'
     | '/campeonatos/$id/editar'
     | '/equinos/$id/editar'
+    | '/equinos/$id/genealogia'
   id:
     | '__root__'
     | '/'
@@ -205,6 +216,7 @@ export interface FileRouteTypes {
     | '/equinos/'
     | '/campeonatos/$id/editar'
     | '/equinos/$id/editar'
+    | '/equinos/$id/genealogia'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -316,6 +328,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CampeonatosIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/equinos/$id/genealogia': {
+      id: '/equinos/$id/genealogia'
+      path: '/genealogia'
+      fullPath: '/equinos/$id/genealogia'
+      preLoaderRoute: typeof EquinosIdGenealogiaRouteImport
+      parentRoute: typeof EquinosIdRoute
+    }
     '/equinos/$id/editar': {
       id: '/equinos/$id/editar'
       path: '/editar'
@@ -347,10 +366,12 @@ const CampeonatosIdRouteWithChildren = CampeonatosIdRoute._addFileChildren(
 
 interface EquinosIdRouteChildren {
   EquinosIdEditarRoute: typeof EquinosIdEditarRoute
+  EquinosIdGenealogiaRoute: typeof EquinosIdGenealogiaRoute
 }
 
 const EquinosIdRouteChildren: EquinosIdRouteChildren = {
   EquinosIdEditarRoute: EquinosIdEditarRoute,
+  EquinosIdGenealogiaRoute: EquinosIdGenealogiaRoute,
 }
 
 const EquinosIdRouteWithChildren = EquinosIdRoute._addFileChildren(
